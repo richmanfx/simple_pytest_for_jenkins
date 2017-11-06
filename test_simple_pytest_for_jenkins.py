@@ -15,3 +15,4 @@ class TestNumber1:
     @allure.step('Второй шаг - провальная проверка заглавных букв')
     def test_second_step_failed_upper(self):
         assert u'строка'.upper() == u'СтРоКа'
+
