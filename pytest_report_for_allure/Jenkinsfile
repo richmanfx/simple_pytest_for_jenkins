@@ -1,0 +1,21 @@
+echo "Запускаем периодически"
+properties([
+    pipelineTriggers([cron('H/10 * * * *')]),
+])
+node {
+    stage ('Удалить старые отчёты') {
+        properties([[
+            $class: 'BuildDiscarderProperty',
+            strategy: [
+                $class: 'LogRotator',
+                artifactDaysToKeepStr: '',
+                artifactNumToKeepStr: '',
+                daysToKeepStr: '2',
+                numToKeepStr: ''
+            ]
+        ]]);
+    }
+    stage('Клонировать из GIT-репозитория') {
+       git changelog: false, poll: false, url: 'https://github.com/richmanfx/simple_pytest_for_jenkins.git'
+    }
+}
